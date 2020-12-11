@@ -18,4 +18,4 @@ const NoteSchema = new mongoose.Schema({
     default: Date.now()
   },
 });
-mongoose.model("Notes", NoteSchema);
+mongoose.model("Note", NoteSchema);
