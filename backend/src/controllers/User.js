@@ -29,7 +29,6 @@ module.exports = {
       const { email } = req.body;
 
       const user = await User.find({ email });
-      console.log(user);
       if (user.length === 0) {
         return res.status(200).json({ ok: true});
       } else {

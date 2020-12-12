@@ -1,5 +1,7 @@
 {
+  "name": "Guspad",
   "short_name": "Guspad",
+  "start_url": "/",
   "description": "Your notes on the go !",
   "icons": [
     {
@@ -37,7 +39,6 @@
     }
   ],
   "display": "standalone",
-  "theme_color": "#0F0900",
-  "background_color": "#0F0900",
-  "start_url": "/"
+  "theme_color": "#FFF",
+  "background_color": "#FFF"
 }
