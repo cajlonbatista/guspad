@@ -1,7 +1,5 @@
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import axios from 'axios';
 
 import '../styles/globals.css';
 import 'antd/dist/antd.css';
