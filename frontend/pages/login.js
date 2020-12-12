@@ -75,6 +75,7 @@ const Login = (props) => {
       <Head>
         <title>Login | Guspad</title>
         <link rel="icon" href={require('../assets/post.svg')} />
+        < link rel='manifest' href='/manifest.json' />
       </Head>
       <LoginContainer>
         <header>

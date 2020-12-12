@@ -58,6 +58,7 @@ export default function Home(props) {
         <Head>
           <title>Guspad</title>
           <link rel="icon" href={require('../assets/post.svg')} />
+          < link rel='manifest' href='/manifest.json' />
         </Head>
         <CircleLoading />
       </>
@@ -68,6 +69,7 @@ export default function Home(props) {
         <Head>
           <title>Guspad</title>
           <link rel="icon" href={require('../assets/post.svg')} />
+          < link rel='manifest' href='/manifest.json' />
         </Head>
         <Header user={data} url={url} />
         <Feed userid={data._id} api={url}/> 

@@ -56,6 +56,7 @@ const Login = (props) => {
     <ThemeProvider theme={login}>
       <Head>
         <title>Register | Guspad</title>
+        <link rel='manifest' href='/manifest.json' />
         <link rel="icon" href={require('../assets/post.svg')} />
       </Head>
       <LoginContainer>
