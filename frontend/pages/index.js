@@ -1,12 +1,13 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
 import axios from 'axios';
 
 import Header from '../components/Header/Header';
-import { CircleLoading } from 'react-loadingg';
 import Maker from '../components/Maker/Maker';
+import Feed from '../components/Feed/Feed';
+import { CircleLoading } from 'react-loadingg';
 
 import { Fixed } from '../styles/index.styles';
 
@@ -16,10 +17,10 @@ export default function Home(props) {
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState();
+  const [notes, setNotes] = useState();
 
   useEffect(() => {
-    const { url } = props;
-
+    let { url } = props;
     const token = localStorage.getItem('@token');
     if (token === null) {
       router.push('/login');
@@ -47,8 +48,9 @@ export default function Home(props) {
         router.push('/login');
       })
     }
-
   }, []);
+
+  const { url } = props;
 
   if (loading === true) {
     return (
@@ -67,12 +69,8 @@ export default function Home(props) {
           <title>Guspad</title>
           <link rel="icon" href={require('../assets/post.svg')} />
         </Head>
-        <>
-          <Fixed>
-            <Header user={data} />
-            <Maker/>
-          </Fixed>
-        </>
+        <Header user={data} url={url} />
+        <Feed userid={data._id} api={url}/> 
       </div>
     )
   }

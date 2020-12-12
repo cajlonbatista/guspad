@@ -27,16 +27,29 @@ const Login = (props) => {
       username
     }
     setLoading(true);
-    axios.post(`${props.url}/api/register`, data)
-      .then(res => {
+    axios.post(`${props.url}/api/verify`, {
+      email
+    }).then(res => {
+      if (res.data.ok === true) {
+        axios.post(`${props.url}/api/register`, data)
+          .then(res => {
+            setLoading(false);
+            const { token } = res.data;
+            localStorage.setItem('@token', `Bearer ${token}`);
+            router.push('/');
+          })
+          .catch(err => {
+            message.error(`${err.message}`);
+          });
+      } else {
+        message.warn('Email is already registered !');
         setLoading(false);
-        const { token } = res.data;
-        localStorage.setItem('@token', `Bearer ${token}`);
-        router.push('/');
-      })
-      .catch(err => {
-        message.error(`${err.message}`);
-      });
+      }
+    }).catch(err => {
+      console.log(err)
+      setLoading(false);
+      message.warn(err);
+    });
   }
 
   return (

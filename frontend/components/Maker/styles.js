@@ -3,14 +3,8 @@ import styled from 'styled-components';
 
 
 export const MakerContainer = styled.section`
-  padding: 10px;
   width: 100%;
   max-width: 100px;
-  margin: auto;
-  border: 10px solid #FFFEDE;
-  background-color: #FFFEDE;
-  border-top: 0px!important;
-  border-radius: 0px 0px 50% 50%;
   button{
     display: block;
     margin: auto;

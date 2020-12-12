@@ -24,6 +24,21 @@ module.exports = {
       return res.status(401).json(error);
     }
   },
+  async verify(req, res) {
+    try {
+      const { email } = req.body;
+
+      const user = await User.find({ email });
+      console.log(user);
+      if (user.length === 0) {
+        return res.status(200).json({ ok: true});
+      } else {
+        return res.status(200).json({ ok: false });
+      }
+    } catch (error) {
+      return res.status(401).json(error);
+    }
+  },
   async show(req, res) {
     try {
       const users = User.find();

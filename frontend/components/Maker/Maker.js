@@ -1,11 +1,13 @@
 import React, { forwardRef, useState } from 'react';
 
-import { AddBox, Close } from '@material-ui/icons';
+import axios from 'axios';
+
 import { AppBar, Button, Dialog, IconButton, Slide, Toolbar } from '@material-ui/core';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { AddBox, Close } from '@material-ui/icons';
+import { Spin } from 'antd';
 
 import { MakerContainer, MakerForm } from './styles';
-import { Spin } from 'antd';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -29,8 +31,10 @@ export const dialog = createMuiTheme({
 
 const Maker = (props) => {
   const {
-
+    user,
+    api
   } = props;
+  const { _id } = user;
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -44,10 +48,27 @@ const Maker = (props) => {
     setOpen(true);
   }
 
+  const createNote = e => {
+    e.preventDefault();
+    setLoading(true);
+    axios.post(`${api}/api/note`, {
+      title,
+      user: _id,
+      content
+    }).then(res => {
+      setLoading(false);
+      setOpen(false);
+      setTitle('');
+      setContent('');
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
   return (
     <ThemeProvider theme={dialog}>
       <MakerContainer>
-        <IconButton onClick={onDialog}><AddBox /></IconButton>
+        <IconButton size='large' onClick={onDialog}><AddBox/></IconButton>
       </MakerContainer>
       <Dialog fullScreen open={open} onClose={offDialog} TransitionComponent={Transition}>
         <AppBar color='primary'>
@@ -57,14 +78,12 @@ const Maker = (props) => {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <MakerForm>
+        <MakerForm onSubmit={createNote}>
           <div>
-            <label>Title</label>
-            <input type='text' value={title} onChange={e => setTitle(e.target.value)} />
+            <input type='text' required placeholder='Title' value={title} onChange={e => setTitle(e.target.value)} />
           </div>
           <div>
-            <label>Content</label>
-            <textarea type='text' value={content} onChange={e => setContent(e.target.value)}></textarea>
+            <textarea type='text' required placeholder='Content' value={content} onChange={e => setContent(e.target.value)}></textarea>
           </div>
           <Button type='submit'><Spin spinning={loading}>Maker</Spin></Button>
         </MakerForm>

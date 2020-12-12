@@ -47,18 +47,27 @@ const Login = (props) => {
     e.preventDefault();
     setLoading(true);
     const { url } = props;
-    axios.post(`${url}/api/login`, {
-      email,
-      password
+    axios.post(`${url}/api/verify`, {
+      email
     }).then(res => {
-      setLoading(false);
-      const { token } = res.data;
-      localStorage.setItem('@token', `Bearer ${token}`);
-      router.push('/');
-    }).catch(err => {
-      message.error(`Credenciais incorretas !`);
-      setLoading(false);
-    })
+      if (res.data.ok === false) {
+        axios.post(`${url}/api/login`, {
+          email,
+          password
+        }).then(res => {
+          setLoading(false);
+          const { token } = res.data;
+          localStorage.setItem('@token', `Bearer ${token}`);
+          router.push('/');
+        }).catch(err => {
+          message.warn(`Incorrect password !`);
+          setLoading(false);
+        })
+      } else {
+        message.warn('Email is not registered !');
+        setLoading(false);
+      }
+    }).catch(err => console.log(err));
   }
 
   return (
