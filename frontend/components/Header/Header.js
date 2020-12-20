@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Maker from '../Maker/Maker';
 
-import { HeaderContainer, HeaderContainerFaded } from './styles';
+import { HeaderContainer } from './styles';
 
 const Header = (props) => {
   const { user, url } = props;

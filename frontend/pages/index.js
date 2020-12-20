@@ -1,23 +1,18 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import axios from 'axios';
 
 import Header from '../components/Header/Header';
-import Maker from '../components/Maker/Maker';
 import Feed from '../components/Feed/Feed';
 import { CircleLoading } from 'react-loadingg';
-
-import { Fixed } from '../styles/index.styles';
-
 
 export default function Home(props) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState();
-  const [notes, setNotes] = useState();
 
   useEffect(() => {
     let { url } = props;

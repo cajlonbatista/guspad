@@ -11,6 +11,9 @@ export const GridNotes = styled.section`
   @media(max-width: 600px){
     background: none;
   }
+  textarea{
+    height: 200px!important;
+  }
   article{
     width: 95%;
     max-width: 600px;

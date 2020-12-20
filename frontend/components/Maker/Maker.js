@@ -68,7 +68,7 @@ const Maker = (props) => {
   return (
     <ThemeProvider theme={dialog}>
       <MakerContainer>
-        <IconButton size='large' onClick={onDialog}><AddBox/></IconButton>
+        <IconButton onClick={onDialog}><AddBox/></IconButton>
       </MakerContainer>
       <Dialog fullScreen open={open} onClose={offDialog} TransitionComponent={Transition}>
         <AppBar color='primary'>
