@@ -27,6 +27,10 @@ export const NoteContainer = styled.article`
   span{
     font-size: 11px;
     font-family: Nunito, sans-serif;
+    position: absolute;
+    transform: rotate(90deg);
+    bottom: 30px;
+    right: -20px;
   }
   svg{
     position: absolute;
