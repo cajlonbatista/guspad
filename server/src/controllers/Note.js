@@ -28,6 +28,16 @@ module.exports = {
       return res.status(401).json(error);
     }
   },
+  async search(req, res) {
+    try {
+      const { label, user } = req.body;
+      const note = await Note.find({ labels: label, user: user });
+      return res.status(200).json(note);
+    } catch (error) {
+      return res.status(401).json(error);
+
+    }
+  },
   async destroy(req, res) {
     try {
       const { id } = req.params;

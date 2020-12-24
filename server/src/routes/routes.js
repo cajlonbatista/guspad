@@ -14,5 +14,6 @@ routes.put('/note/:id', Note.update);
 routes.delete('/note/:id', Note.destroy);
 routes.get('/note/:id', Note.index);
 routes.get('/noteuser/:id', Note.userindex);
+routes.post('/note/search', Note.search);
 
 module.exports = routes;

@@ -20,13 +20,14 @@ const Note = ({ note, refresh, dispatch }) => {
   const [colorDialog, setColorDialog] = useState(false);
   const [labelDialog, setLabelDialog] = useState(false);
   const [label, setLabel] = useState("");
-  const [labels, setLabels] = useState([]);
+  const [labels, setLabels] = useState((note.labels === undefined) ? [] : note.labels);
   const [editable, setEditable] = useState(false);
 
   const url = process.env.REACT_APP_URL;
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const fullNote = useMediaQuery(theme.breakpoints.down('sm'));
+
 
 
   const chipTheme = createMuiTheme({
@@ -70,7 +71,7 @@ const Note = ({ note, refresh, dispatch }) => {
     ))
   );
 
-  const addLabels = () => {
+  const addLabels = async() => {
     var validate = "";
     for (const j of label) {
       if (j !== " ") {
@@ -81,8 +82,23 @@ const Note = ({ note, refresh, dispatch }) => {
       labels.push(label.toLocaleLowerCase());
       setLabels([...labels]);
       setLabel("");
+      await axios.put(`${url}/api/note/${note._id}`, {
+        labels: labels
+      }).then(res => { 
+        dispatch(toggleRefresh(true))
+      })
+        .catch(err => console.log(err));
     }
   };
+
+  const refreshLabels = async () => {
+    await axios.put(`${url}/api/note/${note._id}`, {
+      labels: labels
+    }).then(res => {
+      dispatch(toggleRefresh(true))
+    })
+      .catch(err => console.log(err));
+  }
 
 
   const onDialogColor = e => {
@@ -149,7 +165,7 @@ const Note = ({ note, refresh, dispatch }) => {
           }
         </DialogColor>
       </Dialog>
-      <Dialog fullScreen={fullScreen} open={labelDialog} onClose={offDialogLabel}>
+      <Dialog fullScreen={fullNote} open={labelDialog} onClose={offDialogLabel}>
         <ThemeProvider theme={chipTheme}>
           <DialogLabel>
             <article>
@@ -165,7 +181,6 @@ const Note = ({ note, refresh, dispatch }) => {
                   title=""
                   autoComplete="off"
                   value={label}
-                  onKeyDown={e => (e.key === 'Enter') ? addLabels : console.log(e)}
                   onChange={e => {
                     setLabel(e.target.value);
                   }}
@@ -182,9 +197,10 @@ const Note = ({ note, refresh, dispatch }) => {
               {labels.map((tag) => (
                 <Chip
                   color="primary"
-                  onDelete={(e) => {
+                  onDelete={e => {
                     labels.splice(labels.indexOf(tag), 1);
                     setLabels([...labels]);
+                    refreshLabels();
                   }}
                   key={tag}
                   label={tag}

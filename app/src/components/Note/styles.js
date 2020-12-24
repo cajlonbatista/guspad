@@ -88,18 +88,22 @@ export const DialogLabel = styled.main`
   justify-content: space-between;
   align-items: center;
   overflow: auto;
-  padding: 15px 6px;
+  padding: 10px 6px;
   article:first-child{
+    width: 100%;
     display: flex;
     flex-direction: column;
     header{
-      padding: 20px 10px;
+      padding: 10px;
+      justify-content: space-between;
+    }
+    div{
+      justify-content: center;
     }
     div, header{
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-between;
     }
   }
   label{
