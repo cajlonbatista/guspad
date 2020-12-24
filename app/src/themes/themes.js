@@ -12,3 +12,17 @@ export const login = createMuiTheme({
   }
 });
 
+export const chipTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#FF5F5F",
+      contrastText: "#303030",
+    },
+  },
+  typography: {
+    fontFamily: [
+      'Inter'
+    ].join(','),
+    fontSize: 14
+  },
+});

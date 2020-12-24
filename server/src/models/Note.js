@@ -21,6 +21,12 @@ const NoteSchema = new mongoose.Schema({
     type: Boolean,
     required: false,
   },
+  labels: [
+    {
+      type: String,
+      required: false,
+    }
+  ],
   publishedAt: {
     type: Date,
     default: Date.now()

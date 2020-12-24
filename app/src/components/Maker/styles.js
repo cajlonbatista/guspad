@@ -16,7 +16,7 @@ export const MakerForm = styled.form`
   margin: 10px auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;  
+  justify-content: space-between;  
   @media(max-width: 1279px){
     width: 100%;
     height: 100%;
@@ -26,14 +26,10 @@ export const MakerForm = styled.form`
     display: flex;
     align-items: center;
     justify-content: space-between;  
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: #7E5DEA;
     padding: 5px 25px;
     span{
       font-family: Poppins, sans-serif;
-      color: #F5F5F5;
+      color: #7E5DEA;
       font-size: 18px;
       font-weight: 500;
     }
