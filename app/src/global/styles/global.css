@@ -1,6 +1,5 @@
 @import 'https://fonts.googleapis.com/css2?family=Inter&family=Nunito&family=Poppins&family=Roboto&display=swap';
 @import './animations/styles.css';
-@import '~antd/dist/antd.css';
 
 a {
   color: inherit;

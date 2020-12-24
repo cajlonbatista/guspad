@@ -27,7 +27,9 @@ const Note = ({ note, refresh, dispatch }) => {
 
   const menu = (
     <Menu>
-
+      <Menu.Item>
+        Settings
+      </Menu.Item>
       <Menu.Item danger>
         <Popconfirm
           title="Are you sure to delete this note?"

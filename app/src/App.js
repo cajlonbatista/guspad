@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 import Routes from './routes/routes';
 import store from './store/store';
 
+import './App.less';
+
 function App() {
   return (
     <Provider store={store}>
