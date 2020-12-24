@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { Button, Dialog, DialogContent, IconButton, Slide, useMediaQuery } from '@material-ui/core';
 import { ThemeProvider, createMuiTheme, useTheme } from '@material-ui/core/styles';
 import { AddBox, Close } from '@material-ui/icons';
-import { Spin } from 'antd';
 
 import { MakerContainer, MakerForm } from './styles';
 import { toggleRefresh } from '../../store/actions';

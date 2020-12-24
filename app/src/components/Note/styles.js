@@ -8,24 +8,32 @@ export const NoteContainer = styled.article`
   border-radius: 5px;
   margin: 10px;
 
-  input{
+  span:first-child{
     font-family: Poppins, sans-serif;
     font-size: 16px;
     color: #000000;
     font-weight: 600;
   }
-  div{
+  span{
     font-family: Nunito, sans-serif;
     font-size: 14px;
+    img, button, svg, ul, li{
+      display: none;
+    }
   }
-  input, >div{
+  span:first-child{
+    div{
+      display: none;
+    }
+  }
+  input, >span{
     border: 1.3px solid transparent;
     padding: 5px;
     outline: none;
     background: transparent;
     resize: none;
   }
-  span{
+  article{
     font-size: 11px;
     font-family: Nunito, sans-serif;
     position: absolute;
@@ -66,4 +74,55 @@ export const DialogColor = styled.main`
   justify-content: space-around;
   align-items: center;
   overflow: auto;
+`;
+
+export const DialogLabel = styled.main`
+  width: 400px;
+  height: 400px;
+  @media(max-width: 1279px){
+    width: 100%;
+    height: 100%;
+  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: auto;
+  padding: 15px 6px;
+  article:first-child{
+    display: flex;
+    flex-direction: column;
+    header{
+      padding: 20px 10px;
+    }
+    div, header{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  label{
+    font-size: 16px;
+    font-weight: 600;
+    font-family: Poppins, sans-serif;
+  }
+  input{
+    font-family: Inter, sans-serif;
+    padding: 7px 8px;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    margin: 4px 10px;
+    background: #d6d7ff;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.4s;
+    :focus{
+      border: 2px solid #7e5dea;
+      background: transparent;
+    }
+    :hover{
+      opacity: 0.9;
+    }
+  }
 `;

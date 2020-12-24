@@ -4,11 +4,13 @@ import { toggleRefresh } from "../../store/actions";
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import { More } from '@material-ui/icons';
+import { Close, More } from '@material-ui/icons';
 import { Dropdown, Popconfirm, Menu } from 'antd';
 
-import { NoteContainer, Color, DialogColor } from './styles';
-import { Dialog } from '@material-ui/core';
+import { ThemeProvider, createMuiTheme, useTheme } from '@material-ui/core/styles';
+import { NoteContainer, Color, DialogColor, DialogLabel } from './styles';
+import { Chip, Dialog, IconButton, useMediaQuery } from '@material-ui/core';
+
 
 const colors = ['#FFF', '#ffc849', '#FFFF6F', '#59C2A4', '#FF7272', '#d6d7ff', '#00F2EE'];
 
@@ -16,9 +18,32 @@ const Note = ({ note, refresh, dispatch }) => {
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
   const [colorDialog, setColorDialog] = useState(false);
-  const [border, serBorder] = useState(0);
+  const [labelDialog, setLabelDialog] = useState(false);
+  const [label, setLabel] = useState("");
+  const [labels, setLabels] = useState([]);
+  const [editable, setEditable] = useState(false);
 
   const url = process.env.REACT_APP_URL;
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+
+  const chipTheme = createMuiTheme({
+    palette: {
+      primary: {
+        main: (note.color === undefined) ? '#FFF' : note.color,
+        contrastText: "#303030",
+      },
+    },
+    typography: {
+      fontFamily: [
+        'Inter'
+      ].join(','),
+      fontSize: 14
+    },
+  });
+
 
   const confirm = e => {
     axios.delete(`${url}/api/note/${note._id}`)
@@ -29,11 +54,12 @@ const Note = ({ note, refresh, dispatch }) => {
       })
   }
 
+
   const cancel = e => { };
 
   const options = (
     colors.map(col => (
-      <Color style={{ background: col }} onClick={async e => {
+      <Color key={note.id} style={{ background: col }} onClick={async e => {
         await axios.put(`${url}/api/note/${note._id}`, {
           color: col
         }).then(res => {
@@ -44,17 +70,42 @@ const Note = ({ note, refresh, dispatch }) => {
     ))
   );
 
+  const addLabels = () => {
+    var validate = "";
+    for (const j of label) {
+      if (j !== " ") {
+        validate += j;
+      }
+    }
+    if (validate !== "") {
+      labels.push(label.toLocaleLowerCase());
+      setLabels([...labels]);
+      setLabel("");
+    }
+  };
+
+
   const onDialogColor = e => {
     setColorDialog(true);
   }
   const offDialogColor = e => {
     setColorDialog(false);
   }
+  const onDialogLabel = e => {
+    setLabelDialog(true);
+  }
+  const offDialogLabel = e => {
+    setLabelDialog(false);
+  }
+
 
   const menu = (
     <Menu>
       <Menu.Item onClick={onDialogColor}>
         <Color style={{ background: (note.color !== undefined) ? note.color : '#FFF' }} />
+      </Menu.Item>
+      <Menu.Item onClick={onDialogLabel}>
+        Labels
       </Menu.Item>
       <Menu.Item danger>
         <Popconfirm
@@ -71,23 +122,15 @@ const Note = ({ note, refresh, dispatch }) => {
   );
 
   return (
-    <NoteContainer style={{ background: note.color }}>
-      <Dialog open={colorDialog} onClose={offDialogColor}>
-        <DialogColor>
-          {
-            options
-          }
-        </DialogColor>
-      </Dialog>
-      <Dropdown overlay={menu} trigger={['click']}>
-        <More />
-      </Dropdown>
-      <input
-        value={title}
-        spellcheck="false"
+    <NoteContainer style={{ background: note.color }} >
+      <span
+        contentEditable={editable}
+        suppressContentEditableWarning={true}
+        onClick={e => setEditable(true)}
         onChange={e => setTitle(e.target.value)}
         onFocus={e => dispatch(toggleRefresh(false))}
         onBlur={async e => {
+          setEditable(false);
           await axios.put(`${url}/api/note/${note._id}`, {
             title: title
           })
@@ -96,13 +139,73 @@ const Note = ({ note, refresh, dispatch }) => {
               console.log(err);
             })
           dispatch(toggleRefresh(true))
-        }} />
-      <div
-        contentEditable
+        }} >
+        {title}
+      </span>
+      <Dialog open={colorDialog} onClose={offDialogColor}>
+        <DialogColor>
+          {
+            options
+          }
+        </DialogColor>
+      </Dialog>
+      <Dialog fullScreen={fullScreen} open={labelDialog} onClose={offDialogLabel}>
+        <ThemeProvider theme={chipTheme}>
+          <DialogLabel>
+            <article>
+              <header>
+                <label htmlFor="labels">Labels</label>
+                <IconButton onClick={offDialogLabel}>
+                  <Close />
+                </IconButton>
+              </header>
+              <div>
+                <input
+                  name="labels"
+                  title=""
+                  autoComplete="off"
+                  value={label}
+                  onKeyDown={e => (e.key === 'Enter') ? addLabels : console.log(e)}
+                  onChange={e => {
+                    setLabel(e.target.value);
+                  }}
+                />
+                <IconButton type='button' title="Adicionar tag" onClick={addLabels}>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path fill='#404040' d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+                  </svg>
+                </IconButton>
+              </div>
+            </article>
+            <article>
+              {labels.map((tag) => (
+                <Chip
+                  color="primary"
+                  onDelete={(e) => {
+                    labels.splice(labels.indexOf(tag), 1);
+                    setLabels([...labels]);
+                  }}
+                  key={tag}
+                  label={tag}
+                />
+              ))}
+            </article>
+          </DialogLabel>
+        </ThemeProvider>
+      </Dialog>
+      <Dropdown overlay={menu} trigger={['click']}>
+        <More />
+      </Dropdown>
+      <span
+        contentEditable={editable}
         spellcheck="false"
         suppressContentEditableWarning={true}
+        onClick={e => setEditable(true)}
         onChange={e => setContent(e.target.value)}
-        nFocus={e => dispatch(toggleRefresh(false))} onBlur={async e => {
+        nFocus={e => dispatch(toggleRefresh(false))}
+        onBlur={async e => {
+          setEditable(false);
           await axios.put(`${url}/api/note/${note._id}`, {
             content: content
           })
@@ -113,12 +216,12 @@ const Note = ({ note, refresh, dispatch }) => {
           dispatch(toggleRefresh(true))
         }}>
         {content}
-      </div>
-      <span>
+      </span>
+      <article>
         {
           new Date(note.publishedAt).toLocaleDateString()
         }
-      </span>
+      </article>
     </NoteContainer>
   );
 };
