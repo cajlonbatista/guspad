@@ -7,11 +7,17 @@ import axios from 'axios';
 import { More } from '@material-ui/icons';
 import { Dropdown, Popconfirm, Menu } from 'antd';
 
-import { NoteContainer } from './styles';
+import { NoteContainer, Color, DialogColor } from './styles';
+import { Dialog } from '@material-ui/core';
+
+const colors = ['#FFF', '#ffc849', '#FFFF6F', '#59C2A4', '#FF7272', '#d6d7ff', '#00F2EE'];
 
 const Note = ({ note, refresh, dispatch }) => {
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
+  const [colorDialog, setColorDialog] = useState(false);
+  const [border, serBorder] = useState(0);
+
   const url = process.env.REACT_APP_URL;
 
   const confirm = e => {
@@ -25,10 +31,30 @@ const Note = ({ note, refresh, dispatch }) => {
 
   const cancel = e => { };
 
+  const options = (
+    colors.map(col => (
+      <Color style={{ background: col }} onClick={async e => {
+        await axios.put(`${url}/api/note/${note._id}`, {
+          color: col
+        }).then(res => {
+          dispatch(toggleRefresh(true))
+          offDialogColor();
+        }).catch(err => console.log(err));
+      }} />
+    ))
+  );
+
+  const onDialogColor = e => {
+    setColorDialog(true);
+  }
+  const offDialogColor = e => {
+    setColorDialog(false);
+  }
+
   const menu = (
     <Menu>
-      <Menu.Item>
-        Settings
+      <Menu.Item onClick={onDialogColor}>
+        <Color style={{ background: (note.color !== undefined) ? note.color : '#FFF' }} />
       </Menu.Item>
       <Menu.Item danger>
         <Popconfirm
@@ -38,15 +64,22 @@ const Note = ({ note, refresh, dispatch }) => {
           okText="Yes"
           cancelText="No"
         >
-          Remove
+          Delete
         </Popconfirm>
       </Menu.Item>
     </Menu>
   );
 
   return (
-    <NoteContainer>
-      <Dropdown overlay={menu}>
+    <NoteContainer style={{ background: note.color }}>
+      <Dialog open={colorDialog} onClose={offDialogColor}>
+        <DialogColor>
+          {
+            options
+          }
+        </DialogColor>
+      </Dialog>
+      <Dropdown overlay={menu} trigger={['click']}>
         <More />
       </Dropdown>
       <input

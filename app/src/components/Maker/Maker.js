@@ -31,7 +31,7 @@ export const dialog = createMuiTheme({
 });
 
 
-const Maker = ({ user, refresh, dispatch}) => {
+const Maker = ({ user, refresh, dispatch }) => {
   const api = process.env.REACT_APP_URL;
 
   const [open, setOpen] = useState(false);
@@ -72,12 +72,12 @@ const Maker = ({ user, refresh, dispatch}) => {
         <IconButton onClick={onDialog}><AddBox style={{ fontSize: 20 }} /></IconButton>
       </MakerContainer>
       <Dialog fullScreen={fullScreen} open={open} onClose={offDialog} TransitionComponent={Transition}>
-        <DialogContent style={{ position: 'relative', overflow: 'hidden'}}>
+        <DialogContent style={{ position: 'relative', overflow: 'hidden' }}>
           <MakerForm onSubmit={createNote}>
             <header>
               <span>New note</span>
               <IconButton edge="start" color="inherit" onClick={offDialog} aria-label="close">
-                <Close style={{ color: '#F5F5F5' }} />
+                <Close style={{ color: '#7E5DEA' }} />
               </IconButton>
             </header>
             <section>
@@ -87,7 +87,15 @@ const Maker = ({ user, refresh, dispatch}) => {
               <div>
                 <textarea type='text' required placeholder='Content' value={content} onChange={e => setContent(e.target.value)}></textarea>
               </div>
-              <Button type='submit'><Spin spinning={loading}>Add</Spin></Button>
+              <Button type='submit'>
+                {
+                  (loading)
+                    ?
+                    <>Add...</>
+                    :
+                    <>Add</>
+                }
+              </Button>
             </section>
           </MakerForm>
         </DialogContent>

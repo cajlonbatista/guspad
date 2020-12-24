@@ -4,14 +4,14 @@ export const NoteContainer = styled.article`
   display: flex;
   flex-direction: column;
   padding: 10px;
-  border: 2px solid #cfd0f7;
   position: relative;
   border-radius: 5px;
   margin: 10px;
+
   input{
     font-family: Poppins, sans-serif;
     font-size: 16px;
-    color: #404040;
+    color: #000000;
     font-weight: 600;
   }
   div{
@@ -38,10 +38,32 @@ export const NoteContainer = styled.article`
     top: 0;
     right: 0;
     width: 23px;
+    @media(max-width: 500px){
+      width: 30px;
+    }
     cursor: pointer;
     :hover{
-      fill: #cfd0f7;
+      fill: transparent;
       stroke: #404040;
     }
   }
+`;
+
+export const Color = styled.div`
+  display: block;
+  margin: auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid #404040;
+`;
+
+export const DialogColor = styled.main`
+  width: 400px;
+  height: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  overflow: auto;
 `;
