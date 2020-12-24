@@ -14,7 +14,7 @@ const Feed = ({ refresh, dispatch, user }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {p
+  useEffect(() => {
     if (refresh === true) {
       axios.get(`${url}/api/noteuser/${user}`)
         .then(res => {
