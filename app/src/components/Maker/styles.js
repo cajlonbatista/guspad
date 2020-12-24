@@ -58,6 +58,7 @@ export const MakerForm = styled.form`
         border: 2px solid #d6d7ff;
         margin: 4px 0px;
         outline: none;
+        border-radius: 5px;
         transition: all 0.2s;
         :focus{
           border: 2px solid #7e5dea;

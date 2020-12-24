@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { toggleRefresh } from '../../store/actions';
 
 import Note from '../Note/Note';
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 
 import { GridFeed } from './styles';
 
@@ -13,7 +14,7 @@ const Feed = ({ refresh, dispatch, user }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  useEffect(() => {p
     if (refresh === true) {
       axios.get(`${url}/api/noteuser/${user}`)
         .then(res => {
@@ -39,11 +40,15 @@ const Feed = ({ refresh, dispatch, user }) => {
       </div>
       :
       <GridFeed>
-        {
-          data.map(note => (
-            <Note key={note._id} note={note}/>
-          ))
-        }
+      <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1400: 4 }}>
+        <Masonry>
+          {
+            data.map(note => (
+              <Note key={note._id} note={note} />
+            ))
+          }
+        </Masonry>
+        </ResponsiveMasonry>
       </GridFeed>
   );
 };

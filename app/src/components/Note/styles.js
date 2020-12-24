@@ -4,9 +4,10 @@ export const NoteContainer = styled.article`
   display: flex;
   flex-direction: column;
   padding: 10px;
-  background-color: #cfd0f7;
+  border: 2px solid #cfd0f7;
   position: relative;
   border-radius: 5px;
+  margin: 10px;
   input{
     font-family: Poppins, sans-serif;
     font-size: 16px;
@@ -17,7 +18,7 @@ export const NoteContainer = styled.article`
     font-family: Nunito, sans-serif;
     font-size: 14px;
   }
-  input, div{
+  input, >div{
     border: 1.3px solid transparent;
     padding: 5px;
     outline: none;
