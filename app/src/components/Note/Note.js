@@ -208,7 +208,7 @@ const Note = ({ note, refresh, dispatch }) => {
                     refreshLabels();
                   }}
                   key={tag}
-                  label={note._id}
+                  label={tag}
                 />
               ))}
             </article>
