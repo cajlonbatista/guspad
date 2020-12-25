@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { toggleRefresh } from "../../store/actions";
 import { connect } from 'react-redux';
@@ -6,10 +6,11 @@ import axios from 'axios';
 
 import { Close, More } from '@material-ui/icons';
 import { Dropdown, Popconfirm, Menu } from 'antd';
+import { Chip, Dialog, IconButton, useMediaQuery } from '@material-ui/core';
+import Editable from 'react-contenteditable';
 
 import { ThemeProvider, createMuiTheme, useTheme } from '@material-ui/core/styles';
 import { NoteContainer, Color, DialogColor, DialogLabel } from './styles';
-import { Chip, Dialog, IconButton, useMediaQuery } from '@material-ui/core';
 
 
 const colors = ['#FFF', '#ffc849', '#FFFF6F', '#59C2A4', '#FF7272', '#d6d7ff', '#00F2EE'];
@@ -17,12 +18,13 @@ const colors = ['#FFF', '#ffc849', '#FFFF6F', '#59C2A4', '#FF7272', '#d6d7ff', '
 const Note = ({ note, refresh, dispatch }) => {
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
+
   const [colorDialog, setColorDialog] = useState(false);
   const [labelDialog, setLabelDialog] = useState(false);
-  const [label, setLabel] = useState("");
+  const [label, setLabel] = useState('');
   const [labels, setLabels] = useState((note.labels === undefined) ? [] : note.labels);
-  const [editable, setEditable] = useState(false);
-
+  const titleRef = useRef();
+  const contentRef = useRef();
   const url = process.env.REACT_APP_URL;
 
   const theme = useTheme();
@@ -60,7 +62,7 @@ const Note = ({ note, refresh, dispatch }) => {
 
   const options = (
     colors.map(col => (
-      <Color key={note.id} style={{ background: col }} onClick={async e => {
+      <Color key={col} style={{ background: col }} onClick={async e => {
         await axios.put(`${url}/api/note/${note._id}`, {
           color: col
         }).then(res => {
@@ -71,7 +73,7 @@ const Note = ({ note, refresh, dispatch }) => {
     ))
   );
 
-  const addLabels = async() => {
+  const addLabels = async () => {
     var validate = "";
     for (const j of label) {
       if (j !== " ") {
@@ -84,7 +86,7 @@ const Note = ({ note, refresh, dispatch }) => {
       setLabel("");
       await axios.put(`${url}/api/note/${note._id}`, {
         labels: labels
-      }).then(res => { 
+      }).then(res => {
         dispatch(toggleRefresh(true))
       })
         .catch(err => console.log(err));
@@ -139,25 +141,28 @@ const Note = ({ note, refresh, dispatch }) => {
 
   return (
     <NoteContainer style={{ background: note.color }} >
-      <span
-        contentEditable={editable}
-        suppressContentEditableWarning={true}
-        onClick={e => setEditable(true)}
-        onChange={e => setTitle(e.target.value)}
-        onFocus={e => dispatch(toggleRefresh(false))}
-        onBlur={async e => {
-          setEditable(false);
-          await axios.put(`${url}/api/note/${note._id}`, {
-            title: title
+      <Editable
+        tagName='span'
+        onChange={e => {
+          setTitle(e.target.value);
+          axios.put(`${url}/api/note/${note._id}`, {
+            title: e.target.value
           })
             .then(res => {
+              dispatch(toggleRefresh(true))
             }).catch(err => {
               console.log(err);
             })
-          dispatch(toggleRefresh(true))
-        }} >
-        {title}
-      </span>
+        }}
+        html={title}
+        innerRef={titleRef}
+        onFocus={e => dispatch(toggleRefresh(false))}
+        onPaste={e => {
+          e.preventDefault();
+          document.execCommand('insertText', false, e.clipboardData.getData('text'));
+        }}
+      />
+
       <Dialog open={colorDialog} onClose={offDialogColor}>
         <DialogColor>
           {
@@ -172,7 +177,7 @@ const Note = ({ note, refresh, dispatch }) => {
               <header>
                 <label htmlFor="labels">{note.title}</label>
                 <IconButton onClick={offDialogLabel}>
-                  <Close style={{ color: 'white'}}/>
+                  <Close style={{ color: 'white' }} />
                 </IconButton>
               </header>
               <div>
@@ -213,26 +218,28 @@ const Note = ({ note, refresh, dispatch }) => {
       <Dropdown overlay={menu} trigger={['click']}>
         <More />
       </Dropdown>
-      <span
-        contentEditable={editable}
-        spellcheck="false"
-        suppressContentEditableWarning={true}
-        onClick={e => setEditable(true)}
-        onChange={e => setContent(e.target.value)}
-        nFocus={e => dispatch(toggleRefresh(false))}
-        onBlur={async e => {
-          setEditable(false);
-          await axios.put(`${url}/api/note/${note._id}`, {
-            content: content
+
+      <Editable
+        tagName='span'
+        onChange={e => {
+          setContent(e.target.value);
+          axios.put(`${url}/api/note/${note._id}`, {
+            content: e.target.value
           })
             .then(res => {
+              dispatch(toggleRefresh(true))
             }).catch(err => {
               console.log(err);
             })
-          dispatch(toggleRefresh(true))
-        }}>
-        {content}
-      </span>
+        }}
+        html={content}
+        innerRef={contentRef}
+        onFocus={e => dispatch(toggleRefresh(false))}
+        onPaste={e => {
+          e.preventDefault();
+          document.execCommand('insertText', false, e.clipboardData.getData('text'));
+        }}
+      />
       <article>
         {
           new Date(note.publishedAt).toLocaleDateString()

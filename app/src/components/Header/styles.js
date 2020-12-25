@@ -22,7 +22,7 @@ export const HeaderContainer = styled.header`
     display: flex;
     align-items: center;
   }
-  >div:last-child{
+  >div:last-child, >div:first-child{
     display: flex;
     align-items: center;
   }
@@ -30,6 +30,7 @@ export const HeaderContainer = styled.header`
       width: 35px;
       height: 35px;
       border-radius: 100%;
+      object-fit: cover;
   }
 `;
 

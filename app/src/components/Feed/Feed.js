@@ -12,7 +12,7 @@ import { GridFeed, NotFoundSearch, Searching, Bounce } from './styles';
 
 import notfound from '../../global/assets/notfound.svg';
 
-const Feed = ({ refresh, dispatch, user }) => {
+const Feed = ({ refresh, dispatch, auth }) => {
 
   const url = process.env.REACT_APP_URL;
 
@@ -24,17 +24,18 @@ const Feed = ({ refresh, dispatch, user }) => {
 
   useEffect(() => {
     if (refresh === true) {
-      axios.get(`${url}/api/noteuser/${user}`)
+      axios.get(`${url}/api/noteuser/${auth._id}`)
         .then(res => {
           setData([...res.data]);
           setLoading(false);
           dispatch(toggleRefresh(false));
+          console.log();
         })
     }
-  }, [refresh, url, user]);
+  }, [refresh]);
 
   useEffect(() => {
-    axios.get(`${url}/api/noteuser/${user}`)
+    axios.get(`${url}/api/noteuser/${auth._id}`)
       .then(res => {
         setData([...res.data]);
         setLoading(false);
@@ -48,14 +49,14 @@ const Feed = ({ refresh, dispatch, user }) => {
       setClose('none');
     }
     axios.post(`${url}/api/note/search`, {
-      user: user,
+      user: auth._id,
       label: label
     })
       .then(res => {
         setSearch([...res.data]);
         setLoading(false);
       }).catch(err => console.log(err));
-  }, [label, url, user, refresh]);
+  }, [label, url, refresh]); 
 
   return (
     (loading === true)
@@ -119,4 +120,4 @@ const Feed = ({ refresh, dispatch, user }) => {
   );
 };
 
-export default connect(state => ({ refresh: state.refresh }))(Feed);
+export default connect(state => ({ refresh: state.refresh, auth: state.auth }))(Feed);
