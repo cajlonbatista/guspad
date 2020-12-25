@@ -5,17 +5,16 @@ import axios from 'axios';
 
 import Header from '../../components/Header/Header';
 import { CircleLoading } from 'react-loadingg';
-import Feed from '../../components/Feed/Feed';
-import { connect } from 'react-redux';
 import { toggleAuth } from '../../store/actions';
+import { connect } from 'react-redux';
 
-const Main = ({ auth, dispatch }) => {
+const Account = ({ auth, dispatch }) => {
   const [redirect, setRedirect] = useState(false);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
 
   useEffect(() => {
-    if (auth.email === undefined ) {
+    if (auth.email === undefined) {
       setLoading(true);
       const url = process.env.REACT_APP_URL;
       const token = localStorage.getItem('@token');
@@ -50,8 +49,8 @@ const Main = ({ auth, dispatch }) => {
       setData(auth);
       setLoading(false);
     }
-  }, [data]);
-
+  }, []);
+  
   if (redirect) {
     return (
       <Redirect to='/login' />
@@ -64,9 +63,11 @@ const Main = ({ auth, dispatch }) => {
       :
       <>
         <Header user={data} />
-        <Feed/>
+        <div>
+          <h1>{data.email}</h1>
+        </div>
       </>
   )
 };
 
-export default connect(state => ({ refresh: state.refresh, auth: state.auth }))(Main);
+export default connect(state => ({ refresh: state.refresh, auth: state.auth }))(Account);

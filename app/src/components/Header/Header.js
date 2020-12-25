@@ -155,12 +155,14 @@ const Header = props => {
 
   return (
     <HeaderContainer style={{ opacity: hidden }} >
-      <Link to='/'>
+      <div>
         <IconButton onClick={onDrawer}>
           <Menu />
         </IconButton>
-        <img src={logo} alt='Guspad' />
-      </Link>
+        <Link to='/'>
+          <img src={logo} alt='Guspad' />
+        </Link>
+      </div>
       {
         drawer
       }
