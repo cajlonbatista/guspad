@@ -20,13 +20,14 @@ const Note = ({ note, refresh, dispatch }) => {
   const [colorDialog, setColorDialog] = useState(false);
   const [labelDialog, setLabelDialog] = useState(false);
   const [label, setLabel] = useState("");
-  const [labels, setLabels] = useState([]);
+  const [labels, setLabels] = useState((note.labels === undefined) ? [] : note.labels);
   const [editable, setEditable] = useState(false);
 
   const url = process.env.REACT_APP_URL;
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const fullNote = useMediaQuery(theme.breakpoints.down('sm'));
+
 
 
   const chipTheme = createMuiTheme({
@@ -70,7 +71,7 @@ const Note = ({ note, refresh, dispatch }) => {
     ))
   );
 
-  const addLabels = () => {
+  const addLabels = async() => {
     var validate = "";
     for (const j of label) {
       if (j !== " ") {
@@ -81,8 +82,23 @@ const Note = ({ note, refresh, dispatch }) => {
       labels.push(label.toLocaleLowerCase());
       setLabels([...labels]);
       setLabel("");
+      await axios.put(`${url}/api/note/${note._id}`, {
+        labels: labels
+      }).then(res => { 
+        dispatch(toggleRefresh(true))
+      })
+        .catch(err => console.log(err));
     }
   };
+
+  const refreshLabels = async () => {
+    await axios.put(`${url}/api/note/${note._id}`, {
+      labels: labels
+    }).then(res => {
+      dispatch(toggleRefresh(true))
+    })
+      .catch(err => console.log(err));
+  }
 
 
   const onDialogColor = e => {
@@ -149,14 +165,14 @@ const Note = ({ note, refresh, dispatch }) => {
           }
         </DialogColor>
       </Dialog>
-      <Dialog fullScreen={fullScreen} open={labelDialog} onClose={offDialogLabel}>
+      <Dialog fullScreen={fullNote} open={labelDialog} onClose={offDialogLabel}>
         <ThemeProvider theme={chipTheme}>
           <DialogLabel>
             <article>
               <header>
-                <label htmlFor="labels">Labels</label>
+                <label htmlFor="labels">{note.title}</label>
                 <IconButton onClick={offDialogLabel}>
-                  <Close />
+                  <Close style={{ color: 'white'}}/>
                 </IconButton>
               </header>
               <div>
@@ -165,12 +181,11 @@ const Note = ({ note, refresh, dispatch }) => {
                   title=""
                   autoComplete="off"
                   value={label}
-                  onKeyDown={e => (e.key === 'Enter') ? addLabels : console.log(e)}
                   onChange={e => {
                     setLabel(e.target.value);
                   }}
                 />
-                <IconButton type='button' title="Adicionar tag" onClick={addLabels}>
+                <IconButton type='button' title="Add label" onClick={addLabels}>
                   <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                     <path d="M0 0h24v24H0z" fill="none" />
                     <path fill='#404040' d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
@@ -182,9 +197,10 @@ const Note = ({ note, refresh, dispatch }) => {
               {labels.map((tag) => (
                 <Chip
                   color="primary"
-                  onDelete={(e) => {
+                  onDelete={e => {
                     labels.splice(labels.indexOf(tag), 1);
                     setLabels([...labels]);
+                    refreshLabels();
                   }}
                   key={tag}
                   label={tag}
