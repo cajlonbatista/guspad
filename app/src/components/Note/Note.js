@@ -170,9 +170,9 @@ const Note = ({ note, refresh, dispatch }) => {
           <DialogLabel>
             <article>
               <header>
-                <label htmlFor="labels">Labels</label>
+                <label htmlFor="labels">{note.title}</label>
                 <IconButton onClick={offDialogLabel}>
-                  <Close />
+                  <Close style={{ color: 'white'}}/>
                 </IconButton>
               </header>
               <div>
@@ -185,7 +185,7 @@ const Note = ({ note, refresh, dispatch }) => {
                     setLabel(e.target.value);
                   }}
                 />
-                <IconButton type='button' title="Adicionar tag" onClick={addLabels}>
+                <IconButton type='button' title="Add label" onClick={addLabels}>
                   <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                     <path d="M0 0h24v24H0z" fill="none" />
                     <path fill='#404040' d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />

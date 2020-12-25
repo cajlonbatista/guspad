@@ -13,13 +13,24 @@ export const NoteContainer = styled.article`
     font-size: 16px;
     color: #000000;
     font-weight: 600;
+    background: transparent!important;
   }
   span{
     font-family: Nunito, sans-serif;
     font-size: 14px;
-    img, button, svg, ul, li{
-      display: none;
+    img, button, svg,form, section, article{
+      display: none!important;
     }
+    div{
+      all: unset;
+      all: revert;
+    }
+    p, h1, h2, h3, h4, h6, span, strong, div {
+      background-color: transparent;
+      font-family: Nunito, sans-serif;
+      font-size: 14px;
+    }
+    background-color: transparent;
   }
   span:first-child{
     div{
@@ -88,17 +99,18 @@ export const DialogLabel = styled.main`
   justify-content: space-between;
   align-items: center;
   overflow: auto;
-  padding: 10px 6px;
   article:first-child{
     width: 100%;
     display: flex;
     flex-direction: column;
     header{
-      padding: 10px;
+      padding: 5px 10px;
       justify-content: space-between;
+      background: #7e5dea;
     }
     div{
       justify-content: center;
+      padding-top: 20%;
     }
     div, header{
       width: 100%;
@@ -106,10 +118,19 @@ export const DialogLabel = styled.main`
       align-items: center;
     }
   }
+  article:last-child{
+    padding: 10px;
+  }
   label{
-    font-size: 16px;
-    font-weight: 600;
+    width: 250px;
+    font-size: 15px;
+    font-weight: 500;
+    color: white;
+    margin-left: 10px;
     font-family: Poppins, sans-serif;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
   input{
     font-family: Inter, sans-serif;
