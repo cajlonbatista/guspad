@@ -13,7 +13,7 @@ import { ThemeProvider, createMuiTheme, useTheme } from '@material-ui/core/style
 import { NoteContainer, Color, DialogColor, DialogLabel } from './styles';
 
 
-const colors = ['#FFF', '#ffc849', '#FFFF6F', '#59C2A4', '#FF7272', '#d6d7ff', '#00F2EE'];
+const colors = ['#FFF', '#ffc849', '#FFFF6F', '#59C2A4', '#FF7272', '#d6d7ff', '#00F2EE', '#d188e8', '#82ff82'];
 
 const Note = ({ note, refresh, dispatch }) => {
   const [title, setTitle] = useState(note.title);
@@ -143,6 +143,7 @@ const Note = ({ note, refresh, dispatch }) => {
     <NoteContainer style={{ background: note.color }} >
       <Editable
         tagName='span'
+        spellCheck={false}
         onChange={e => {
           setTitle(e.target.value);
           axios.put(`${url}/api/note/${note._id}`, {
@@ -221,6 +222,7 @@ const Note = ({ note, refresh, dispatch }) => {
 
       <Editable
         tagName='span'
+        spellCheck={false}
         onChange={e => {
           setContent(e.target.value);
           axios.put(`${url}/api/note/${note._id}`, {
