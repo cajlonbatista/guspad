@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import axios from 'axios';
 
 import Header from '../../components/Header/Header';
-import { CircleLoading } from 'react-loadingg';
 import { toggleAuth } from '../../store/actions';
-import { connect } from 'react-redux';
+import { CircleLoading } from 'react-loadingg';
+import { Edit, Visibility } from '@material-ui/icons';
+
+import { AccountContainer } from './styles';
 
 const Account = ({ auth, dispatch }) => {
   const [redirect, setRedirect] = useState(false);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
-
+  const [base, setBase] = useState('');
+  
   useEffect(() => {
     if (auth.email === undefined) {
       setLoading(true);
@@ -50,7 +54,7 @@ const Account = ({ auth, dispatch }) => {
       setLoading(false);
     }
   }, []);
-  
+
   if (redirect) {
     return (
       <Redirect to='/login' />
@@ -63,9 +67,18 @@ const Account = ({ auth, dispatch }) => {
       :
       <>
         <Header user={data} />
-        <div>
-          <h1>{data.email}</h1>
-        </div>
+        <AccountContainer>
+          <header>
+            <div style={{ backgroundImage: `url(${(base === '') ? ((data.avatar === undefined) ? 'https://c1.wallpaperflare.com/preview/811/367/789/technology-computer-creative-design.jpg' : data.avatar) : base})` }}>
+              <Edit style={{ color: 'white' }} />
+              <input type='file' title={data.username}/>
+            </div>
+            <h1>{data.username}</h1>
+          </header>
+          <section>
+            
+          </section>
+        </AccountContainer>
       </>
   )
 };
