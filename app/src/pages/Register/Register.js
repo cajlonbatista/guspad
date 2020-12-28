@@ -36,6 +36,7 @@ const Login = props => {
           .then(res => {
             setLoading(false);
             const { token } = res.data;
+            console.log(token);
             localStorage.setItem('@token', `Bearer ${token}`);
             setRedirect(true);
           })
