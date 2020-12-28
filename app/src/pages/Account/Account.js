@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
 import Header from '../../components/Header/Header';
 import { toggleAuth } from '../../store/actions';
 import { CircleLoading } from 'react-loadingg';
-import { Edit, Visibility } from '@material-ui/icons';
+import { Edit } from '@material-ui/icons';
 
 import { AccountContainer } from './styles';
 
@@ -76,7 +76,11 @@ const Account = ({ auth, dispatch }) => {
             <h1>{data.username}</h1>
           </header>
           <section>
-            
+            <p>{data.email}</p>
+            <button onClick={async e => {
+              await localStorage.setItem('@token', null);
+              setRedirect(true);
+            }}>Loggout</button>
           </section>
         </AccountContainer>
       </>

@@ -48,16 +48,6 @@ const menu = [
     title: 'My Account',
     icon: account
   },
-  {
-    path: '/settings',
-    title: 'Settings',
-    icon: settings
-  },
-  {
-    path: '/about',
-    title: 'About',
-    icon: about
-  }
 ]
 
 

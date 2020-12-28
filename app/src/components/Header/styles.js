@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 export const HeaderContainer = styled.header`
   width: 100vw;
   padding: 15px 20px;
-  background: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: white;
   position: fixed;
   z-index: 10;
   animation: bounce 0.5s linear ; 
