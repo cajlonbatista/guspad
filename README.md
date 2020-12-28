@@ -1,6 +1,4 @@
-# Guspad
-
-<p align="center"><img src="https://spacehunter.vercel.app/static/media/rocket.585ceaf1.svg" width="150px" align="center"></p>
+<p align="center"><img src="https://guspad.vercel.app/static/media/post.aece3fc1.svg" width="150px" align="center"></p>
 
 <h1 align="center">Guspad</h1>
 
@@ -37,13 +35,9 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
   # Enter the directory:
   $ cd guspad
 ```
-## :gear: Starting
-``` bash
-  # Install the dependencies:
-  $ yarn install
-  
-  # Launch an application:
-  $ yarn start
- ```
+## 💻 Acess
+
+You can access this [link](https://guspad.vercel.app/)
+
 ## :handshake: Contributors
   - Francisco Cajlon - [cajlonbatista](https://github.com/cajlonbatista)
