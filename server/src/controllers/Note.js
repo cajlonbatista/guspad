@@ -24,7 +24,7 @@ module.exports = {
       const { id } = req.params;
       const note = await Note.findByIdAndUpdate(id, req.body, { new: true });
       return res.status(200).json(note);
-      
+
     } catch (error) {
       return res.status(401).json(error);
     }
@@ -36,7 +36,6 @@ module.exports = {
       return res.status(200).json(note);
     } catch (error) {
       return res.status(401).json(error);
-
     }
   },
   async destroy(req, res) {
