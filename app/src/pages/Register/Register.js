@@ -23,13 +23,13 @@ const Login = props => {
   const onCreate = e => {
     e.preventDefault();
     const data = {
-      email,
+      email: email.toLocaleLowerCase(),
       password,
       username
     }
     setLoading(true);
     axios.post(`${url}/api/verify`, {
-      email
+      email: email.toLocaleLowerCase()
     }).then(res => {
       if (res.data.ok === true) {
         axios.post(`${url}/api/register`, data)

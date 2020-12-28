@@ -38,6 +38,7 @@ const Login = props => {
           setLoader(false);
         }
       }).catch(err => {
+        setLoader(false);
         console.log(err.message);
       })
     }
@@ -47,11 +48,11 @@ const Login = props => {
     e.preventDefault();
     setLoading(true);
     axios.post(`${url}/api/verify`, {
-      email
+      email: email.toLocaleLowerCase()
     }).then(res => {
       if (res.data.ok === false) {
         axios.post(`${url}/api/login`, {
-          email,
+          email: email.toLocaleLowerCase(),
           password
         }).then(res => {
           setLoading(false);
