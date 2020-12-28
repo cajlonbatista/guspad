@@ -58,6 +58,7 @@ const Login = props => {
           setLoading(false);
           const { token } = res.data;
           localStorage.setItem('@token', `Bearer ${token}`);
+          console.log(res);
           setRedirect(true);
         }).catch(err => {
           message.warn(`Incorrect password !`);

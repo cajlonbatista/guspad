@@ -62,8 +62,8 @@ const Note = ({ note, refresh, dispatch }) => {
 
   const options = (
     colors.map(col => (
-      <Color key={col} style={{ background: col }} onClick={async e => {
-        await axios.put(`${url}api/note/${note._id}`, {
+      <Color key={col} style={{ background: col }} onClick={e => {
+        axios.put(`${url}api/note/${note._id}`, {
           color: col
         }).then(res => {
           dispatch(toggleRefresh(true))
