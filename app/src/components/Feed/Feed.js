@@ -24,7 +24,7 @@ const Feed = ({ refresh, dispatch, auth }) => {
 
   useEffect(() => {
     if (refresh === true) {
-      axios.get(`${url}/api/noteuser/${auth._id}`)
+      axios.get(`${url}api/noteuser/${auth._id}`)
         .then(res => {
           setData([...res.data]);
           setLoading(false);
@@ -35,7 +35,7 @@ const Feed = ({ refresh, dispatch, auth }) => {
   }, [refresh]);
 
   useEffect(() => {
-    axios.get(`${url}/api/noteuser/${auth._id}`)
+    axios.get(`${url}api/noteuser/${auth._id}`)
       .then(res => {
         setData([...res.data]);
         setLoading(false);
@@ -48,7 +48,7 @@ const Feed = ({ refresh, dispatch, auth }) => {
     } else {
       setClose('none');
     }
-    axios.post(`${url}/api/note/search`, {
+    axios.post(`${url}api/note/search`, {
       user: auth._id,
       label: label
     })

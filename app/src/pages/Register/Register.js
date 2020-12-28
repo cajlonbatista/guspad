@@ -28,11 +28,11 @@ const Login = props => {
       username
     }
     setLoading(true);
-    axios.post(`${url}/api/verify`, {
+    axios.post(`${url}api/verify`, {
       email: email.toLocaleLowerCase()
     }).then(res => {
       if (res.data.ok === true) {
-        axios.post(`${url}/api/register`, data)
+        axios.post(`${url}api/register`, data)
           .then(res => {
             setLoading(false);
             const { token } = res.data;

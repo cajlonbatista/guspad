@@ -22,7 +22,7 @@ const Main = ({ auth, dispatch }) => {
       if (token === null) {
         setRedirect(true);
       } else {
-        axios.get(`${url}/validate`, {
+        axios.get(`${url}validate`, {
           headers: {
             'Authorization': token
           }
@@ -31,7 +31,7 @@ const Main = ({ auth, dispatch }) => {
           if (ok !== true) {
             setRedirect(true);
           } else {
-            axios.get(`${url}/api/user/${user}`)
+            axios.get(`${url}api/user/${user}`)
               .then(async res => {
                 setData(res.data);
                 await dispatch(toggleAuth(res.data));

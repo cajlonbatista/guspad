@@ -25,7 +25,7 @@ const Account = ({ auth, dispatch }) => {
       if (token === null) {
         setRedirect(true);
       } else {
-        axios.get(`${url}/validate`, {
+        axios.get(`${url}validate`, {
           headers: {
             'Authorization': token
           }

@@ -50,7 +50,7 @@ const Maker = ({ user, refresh, dispatch }) => {
   const createNote = e => {
     e.preventDefault();
     setLoading(true);
-    axios.post(`${api}/api/note`, {
+    axios.post(`${api}api/note`, {
       title,
       user,
       content

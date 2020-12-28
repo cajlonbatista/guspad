@@ -49,7 +49,7 @@ const Note = ({ note, refresh, dispatch }) => {
 
 
   const confirm = e => {
-    axios.delete(`${url}/api/note/${note._id}`)
+    axios.delete(`${url}api/note/${note._id}`)
       .then(res => {
         dispatch(toggleRefresh(true))
       }).catch(err => {
@@ -63,7 +63,7 @@ const Note = ({ note, refresh, dispatch }) => {
   const options = (
     colors.map(col => (
       <Color key={col} style={{ background: col }} onClick={async e => {
-        await axios.put(`${url}/api/note/${note._id}`, {
+        await axios.put(`${url}api/note/${note._id}`, {
           color: col
         }).then(res => {
           dispatch(toggleRefresh(true))
@@ -84,7 +84,7 @@ const Note = ({ note, refresh, dispatch }) => {
       labels.push(label.toLocaleLowerCase());
       setLabels([...labels]);
       setLabel("");
-      await axios.put(`${url}/api/note/${note._id}`, {
+      await axios.put(`${url}api/note/${note._id}`, {
         labels: labels
       }).then(res => {
         dispatch(toggleRefresh(true))
@@ -94,7 +94,7 @@ const Note = ({ note, refresh, dispatch }) => {
   };
 
   const refreshLabels = async () => {
-    await axios.put(`${url}/api/note/${note._id}`, {
+    await axios.put(`${url}api/note/${note._id}`, {
       labels: labels
     }).then(res => {
       dispatch(toggleRefresh(true))
@@ -146,7 +146,7 @@ const Note = ({ note, refresh, dispatch }) => {
         spellCheck={false}
         onChange={e => {
           setTitle(e.target.value);
-          axios.put(`${url}/api/note/${note._id}`, {
+          axios.put(`${url}api/note/${note._id}`, {
             title: e.target.value
           })
             .then(res => {
@@ -225,7 +225,7 @@ const Note = ({ note, refresh, dispatch }) => {
         spellCheck={false}
         onChange={e => {
           setContent(e.target.value);
-          axios.put(`${url}/api/note/${note._id}`, {
+          axios.put(`${url}api/note/${note._id}`, {
             content: e.target.value
           })
             .then(res => {

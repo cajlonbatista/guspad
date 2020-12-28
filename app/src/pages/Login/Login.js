@@ -26,7 +26,7 @@ const Login = props => {
     if (token === null) {
       setLoader(false);
     } else {
-      axios.get(`${url}/validate`, {
+      axios.get(`${url}validate`, {
         headers: {
           'Authorization': token
         }
@@ -47,11 +47,11 @@ const Login = props => {
   const onLogin = e => {
     e.preventDefault();
     setLoading(true);
-    axios.post(`${url}/api/verify`, {
+    axios.post(`${url}api/verify`, {
       email: email.toLocaleLowerCase()
     }).then(res => {
       if (res.data.ok === false) {
-        axios.post(`${url}/api/login`, {
+        axios.post(`${url}api/login`, {
           email: email.toLocaleLowerCase(),
           password
         }).then(res => {
