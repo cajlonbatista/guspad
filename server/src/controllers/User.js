@@ -7,7 +7,7 @@ const mailer = require('../mails/mails');
 const User = mongoose.model("User");
 
 function generateToken(params = {}) {
-  return (token = jwt.sign(params, process.env.AUTH, {
+  return (token = jwt.sign(params, process.env.PAM, {
     expiresIn: 864000,
   }));
 }
