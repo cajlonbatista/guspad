@@ -1,5 +1,0 @@
-/build
-
-yarn.lock
-node_modules
-.env
