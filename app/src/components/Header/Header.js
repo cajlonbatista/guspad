@@ -94,7 +94,7 @@ const Header = props => {
   }
 
   const drawer = (
-    <Drawer anchor='left' variant='persistent' open={info} onClose={offDrawer}>
+    <Drawer anchor='left' variant='temporary' open={info} onClose={offDrawer}>
       <DrawerContent ref={wrapperRef} >
         <header>
           <Link to='/' onClick={offDrawer}>

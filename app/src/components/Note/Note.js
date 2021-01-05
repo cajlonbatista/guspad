@@ -242,11 +242,6 @@ const Note = ({ note, refresh, dispatch }) => {
           document.execCommand('insertText', false, e.clipboardData.getData('text'));
         }}
       />
-      <article>
-        {
-          new Date(note.publishedAt).toLocaleDateString()
-        }
-      </article>
     </NoteContainer>
   );
 };

@@ -6,7 +6,7 @@ export const NoteContainer = styled.article`
   padding: 10px;
   position: relative;
   border-radius: 5px;
-  
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 2px 6px 2px rgba(60,64,67,0.149);
   margin: 10px;
 
   span:first-child{

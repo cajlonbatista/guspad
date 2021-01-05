@@ -80,9 +80,7 @@ const Account = ({ auth, dispatch }) => {
             <button onClick={async e => {
               dispatch(toggleAuth({}));
               await localStorage.setItem('@token', null);
-
               setRedirect(true);
-              
             }}>Loggout</button>
           </section>
         </AccountContainer>
